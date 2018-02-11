@@ -1,4 +1,4 @@
-package model;
+package core;
 
 import java.util.Random;
 
@@ -43,8 +43,10 @@ public class Pas {
 	 * Génerer un déplacement aléatoire 
 	 */
 	public void alea() {
-		pasX=generatRandomPositiveNegitiveValue(2,0);
-		pasY=generatRandomPositiveNegitiveValue(2,0);
+		while(pasX == 0 && pasY == 0) {
+			pasX=generatRandomPositiveNegitiveValue(2,0);
+			pasY=generatRandomPositiveNegitiveValue(2,0);
+		}
 	}
 	
 	public static int generatRandomPositiveNegitiveValue(int max , int min) {

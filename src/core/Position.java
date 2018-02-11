@@ -1,4 +1,4 @@
-package model;
+package core;
 
 public class Position {
 	int positionX;

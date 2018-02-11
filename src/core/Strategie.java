@@ -1,4 +1,4 @@
-package model;
+package core;
 
 public class Strategie {
 	public static final String SEQUENTIELLE="SEQUENTIELLE";
