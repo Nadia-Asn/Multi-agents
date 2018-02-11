@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.omg.CORBA.Environment;
+
 import core.Agent;
-import core.AgentColor;
-import core.Direction;
-import core.Environment;
 import core.Environnement;
 import core.Pas;
 import core.Position;
@@ -32,7 +31,7 @@ public class Shark extends Agent{
 			int oldX, oldY;
 			List<Fish> l_fish = isAFishAround();
 			if (!l_fish.isEmpty()) {
-				// eat the fish
+				// Mange le poisson
 				Random r = new Random();
 				Fish toRemove = l_fish.get(r.nextInt(l_fish.size()));
 				SMA.listAgent.remove(toRemove);
