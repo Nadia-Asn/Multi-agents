@@ -143,7 +143,6 @@ public class Environnement extends Observable{
 	
 	
 	public int getGridSizeX(){
-		//System.out.println(Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX")));
 		return Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"));	
 	}
 	
@@ -154,7 +153,7 @@ public class Environnement extends Observable{
 	
 	public boolean isTorus(){
 
-		return Boolean.valueOf(PropertiesReader.getInstance().getProperties("torus"));
+		return Boolean.valueOf(PropertiesReader.getInstance().getProperties("torique"));
 	}
 	
 	

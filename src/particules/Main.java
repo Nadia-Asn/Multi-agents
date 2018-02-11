@@ -1,3 +1,4 @@
+package particules;
 import core.Environnement;
 import core.EnvironnementAgent;
 import core.PropertiesReader;

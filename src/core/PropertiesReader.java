@@ -12,7 +12,6 @@ public class PropertiesReader {
 	static InputStream input;
 	
 	public PropertiesReader() throws FileNotFoundException {
-		System.out.println("totooototo");
 		input = new FileInputStream("multi_agents.properties");
 	
 	}

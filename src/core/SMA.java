@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import particules.Particule;
+
 public class SMA {
 	
 	private Environnement environnement;
@@ -43,7 +45,7 @@ public class SMA {
 
 			} while (!environnement.caseLibre(posXRandom, posYRandom));
 
-			agents.add(new Agent(i, new Position(posXRandom, posYRandom), new Pas(pasXRandom, pasYRandom),environnement));
+			agents.add(new Particule(i, new Position(posXRandom, posYRandom), new Pas(pasXRandom, pasYRandom),environnement));
 
 			System.out.println("position initial agent n° :" + i + " => ("+posXRandom + "," + posYRandom + ")");
 		}

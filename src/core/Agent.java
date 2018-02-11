@@ -1,14 +1,14 @@
 package core;
 
-public class Agent {
+public abstract class Agent {
 	
-	private Environnement environnement;
-	private int agent;
-	private Position position;
-	private Pas pas;
-	private int xMatrice;
-	private int yMatrice;
-	boolean collision = false;
+	protected Environnement environnement;
+	protected int agent;
+	protected Position position;
+	protected Pas pas;
+	protected int xMatrice;
+	protected int yMatrice;
+	protected boolean collision = false;
 	
 	public Position getPosition() {
 		return position;
@@ -84,30 +84,7 @@ public class Agent {
 	}
 
 	
-	public void decide() {
-		this.pas.alea();
-		
-		int newPosX = this.position.getPositionX() + this.pas.getPasX();
-		int newPosY = this.position.getPositionY() + this.pas.getPasY();
-		
-		if(environnement.collisionFrontiere(newPosX, newPosY)){
-			System.out.println("collision avec une frontière de l'agent : " + this.agent);
-			this.pas.setPasX(this.pas.getPasX() * -1);
-			this.pas.setPasY(this.pas.getPasY() * -1);
-			collision = true;
-
-		}else if (!environnement.caseLibre(newPosX , newPosY)){
-			System.out.println("collision de "+ this.agent);
-			this.pas.setPasX(this.pas.getPasX() * -1);
-			this.pas.setPasY(this.pas.getPasY() * -1);
-			collision = true;
-
-			environnement.notifyChanges();
-		}else{
-
-			environnement.deplacerAgent(this);
-		}
-	}
+	public abstract void decide();
 	
 	public void verif() {
 		if (positionInterditeZeroX()) {
