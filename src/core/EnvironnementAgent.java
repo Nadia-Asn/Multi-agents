@@ -13,7 +13,7 @@ public class EnvironnementAgent extends Environnement {
 		JScrollPane scroller = new JScrollPane();
 		scroller.setViewportView(vue);
 		vue.setVisible(true);
-		this.createWindow("Particules").add(vue);
+		this.createWindow("").add(vue);
 
 	}
 

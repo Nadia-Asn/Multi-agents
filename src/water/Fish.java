@@ -19,25 +19,23 @@ public class Fish extends Agent{
 	
 	@Override
 	public void decide() {
-		super.decide();
 		fishBreedTime--;
-
-		int oldX = this.getPosX();
-		int oldY = this.getPosY();
-
-		findNewPosition();
-		makeAction();
 		
-		if(fishBreedTime == 0 && madeAMove(oldX, oldY)){
-			Agent fish = new Fish(oldX, oldY, AgentColor.Vert, Direction.getRandomDirection());
-			Environment.getTab()[oldX][oldY] = fish;
-			SMA.listAgent.add(fish);
+		int oldX = this.getPosition().getPositionX();
+		int oldY = this.getPosition().getPositionY();
+
+		if(fishBreedTime == 0){
+			Agent fish = new Fish(new Position(oldX, oldY), new Pas(0, 0), this.getEnvironnement());
+			fish.getPas().alea();
+			environnement.addAgent(fish);
+			SMA.agents.add(fish);
 
 			fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
 		} else if(fishBreedTime < 0 ) {
 			fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
 		}
-		setDirection(Direction.getRandomDirection());
+		this.pas.alea();
+		this.environnement.deplacerAgent(this);
 	}
 
 }

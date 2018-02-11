@@ -137,8 +137,6 @@ public abstract class Agent {
 	 */
 	public void update() {
 
-	//verif();
-
 		this.position.setPositionX(this.position.getPositionX() + this.pas.pasX);
 		this.position.setPositionY(this.position.getPositionY() + this.pas.pasY);
 	

@@ -64,22 +64,27 @@ public class View extends JPanel implements Observer {
 			
 
 			for (int j = 0; j < env.getEnvironnement()[i].length; j++) {
+				Agent agent = env.getEnvironnement()[i][j];
 
-				if (env.getEnvironnement()[i][j] != null) {
-					drawBall(g, i, j, env.getEnvironnement()[i][j].getCollision());
+				if (agent != null) {
+					drawBall(g, i, j, agent);
 				}
 			}
 		}
 	}
-	private void drawBall(Graphics g, int x, int y, boolean collision) {
+	private void drawBall(Graphics g, int x, int y, Agent agent) {
+		drawBallParticules(g, x, y, agent);
+	}
+
+
+	private void drawBallParticules(Graphics g, int x, int y, Agent agent) {
 		int posX = (env.getBoxSize() + 1) * x;
 		int posY = (env.getBoxSize() + 1) * y;
-		if(collision) {
+		if(agent.getCollision()) {
 			g.setColor(Color.RED);
 		} else {
 			g.setColor(Color.BLACK);
 		}
 		g.fillOval(posX, posY, env.getBoxSize() + 1, env.getBoxSize() + 1);
 	}
-
 }

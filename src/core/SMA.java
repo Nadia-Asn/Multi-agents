@@ -12,7 +12,7 @@ import water.Shark;
 public class SMA {
 	
 	private Environnement environnement;
-	protected List<Agent> agents = new ArrayList<Agent>();
+	public static List<Agent> agents = new ArrayList<Agent>();
 	private Random random = new Random();
 	private int ticks;
 	private String strategie;
