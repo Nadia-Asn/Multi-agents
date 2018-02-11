@@ -13,7 +13,7 @@ public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
 
-			Environnement env = new EnvironnementAgent((Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"))),(Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeY"))),Boolean.valueOf(PropertiesReader.getInstance().getProperties("torus")));
+			Environnement env = new EnvironnementAgent((Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"))),(Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeY"))),Boolean.valueOf(PropertiesReader.getInstance().getProperties("torique")));
 			String strategie = PropertiesReader.getInstance().getProperties("scheduling");
 			SMA sma = new SMA(env, "particules");
 			Thread.sleep(env.getDelay());

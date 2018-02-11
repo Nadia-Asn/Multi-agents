@@ -1,18 +1,19 @@
 package water;
 
+
 import core.Agent;
-import core.AgentColor;
-import core.Direction;
-import core.Environment;
+import core.Environnement;
+import core.Pas;
+import core.Position;
 import core.PropertiesReader;
 import core.SMA;
 
-public class Fish extends Baby{
+public class Fish extends Agent{
 
 	int fishBreedTime;
 	
-	public Fish(int posX, int posY, AgentColor color, String direction) {
-		super(posX, posY, color, direction);
+	public Fish(Position position, Pas pas, Environnement environnement ) {
+		super(position, pas, environnement);
 		this.fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
 	}
 	

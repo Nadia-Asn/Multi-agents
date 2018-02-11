@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import particules.Particule;
+import water.Fish;
+import water.Shark;
 
 public class SMA {
 	
@@ -35,6 +37,8 @@ public class SMA {
 		int gridsizeX = (Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX")));
 		int gridsizeY = (Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeY")));
 		int nbParticles = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbParticles")));
+		int nbFish = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbFish")));
+		int nbShark = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbShark")));
 		ticks = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbTicks")));
 		strategie = PropertiesReader.getInstance().getProperties("scheduling");
 		
@@ -51,9 +55,32 @@ public class SMA {
 					posYRandom = random.nextInt(gridsizeY);	
 	
 				} while (!this.environnement.caseLibre(posXRandom, posYRandom));
-	
 				agents.add(new Particule(i, new Position(posXRandom, posYRandom), new Pas(pasXRandom, pasYRandom),this.environnement));
+				System.out.println("position initial agent n° :" + i + " => ("+posXRandom + "," + posYRandom + ")");
+			}
+		} else if("water".equals(this.game)) {
+			for (int i = 0; i < nbFish; i++) {
+				int posXRandom , posYRandom = 0;
+				int pasXRandom = 0;
+				int pasYRandom = 0;
+				do {
+					posXRandom = random.nextInt(gridsizeX);
+					posYRandom = random.nextInt(gridsizeY);	
 	
+				} while (!this.environnement.caseLibre(posXRandom, posYRandom));
+				agents.add(new Fish(new Position(posXRandom, posYRandom), new Pas(pasXRandom, pasYRandom),this.environnement));
+				System.out.println("position initial agent n° :" + i + " => ("+posXRandom + "," + posYRandom + ")");
+			}
+			for (int i = 0; i < nbShark; i++) {
+				int posXRandom , posYRandom = 0;
+				int pasXRandom = 0;
+				int pasYRandom = 0;
+				do {
+					posXRandom = random.nextInt(gridsizeX);
+					posYRandom = random.nextInt(gridsizeY);	
+	
+				} while (!this.environnement.caseLibre(posXRandom, posYRandom));
+				agents.add(new Shark(new Position(posXRandom, posYRandom), new Pas(pasXRandom, pasYRandom),this.environnement));
 				System.out.println("position initial agent n° :" + i + " => ("+posXRandom + "," + posYRandom + ")");
 			}
 		}

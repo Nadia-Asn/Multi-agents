@@ -86,7 +86,6 @@ public class Environnement extends Observable{
 		environnement[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = null;
 		
 		agent.update();
-		//agent.verif();
 
 		environnement[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = agent;
 

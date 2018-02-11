@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.omg.CORBA.Environment;
+
 
 import core.Agent;
 import core.Environnement;
@@ -29,16 +29,15 @@ public class Shark extends Agent{
 
 		if(sharkStarveTime > 0) {
 			int oldX, oldY;
-			List<Fish> l_fish = isAFishAround();
-			if (!l_fish.isEmpty()) {
+			List<Fish> listfish = isAFishAround();
+			if (!listfish.isEmpty()) {
 				// Mange le poisson
 				Random r = new Random();
-				Fish toRemove = l_fish.get(r.nextInt(l_fish.size()));
+				Fish poisson = listfish.get(r.nextInt(listfish.size()));
 				SMA.listAgent.remove(toRemove);
 				Environment.getTab()[toRemove.getPosX()][toRemove.getPosY()] = null;
 
-
-				// move the shark
+				// Déplacement 
 				Environment.getTab()[getPosX()][getPosY()] = null;
 
 				oldX = this.getPosX();
