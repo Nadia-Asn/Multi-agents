@@ -31,47 +31,41 @@ public class Shark extends Agent{
 			int oldX, oldY;
 			List<Fish> listfish = isAFishAround();
 			if (!listfish.isEmpty()) {
-				// Mange le poisson
 				Random r = new Random();
-				Fish poisson = listfish.get(r.nextInt(listfish.size()));
-				SMA.listAgent.remove(toRemove);
-				Environment.getTab()[toRemove.getPosX()][toRemove.getPosY()] = null;
+				Fish poissonMange = listfish.get(r.nextInt(listfish.size()));
+				Position pos = poissonMange.getPosition();
+				SMA.agents.remove(poissonMange);
+				this.environnement.getEnvironnement()[pos.getPositionX()][pos.getPositionY()] = null;
 
-				// Déplacement 
-				Environment.getTab()[getPosX()][getPosY()] = null;
+				this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
 
-				oldX = this.getPosX();
-				oldY = this.getPosY();
+				oldX = this.getPosition().getPositionX();
+				oldY = this.getPosition().getPositionY();
 
-				setPosX(toRemove.getPosX());
-				setPosY(toRemove.getPosY());
-
-				Environment.getTab()[getPosX()][getPosY()] = this;
+				this.setPosition(new Position(pos.getPositionX(),  pos.getPositionY()));
+				
+				this.environnement.getEnvironnement()[pos.getPositionX()][pos.getPositionY()] = this;
 
                 sharkStarveTime =  Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkStarveTime"));
 			} else {
 
-				oldX = this.getPosX();
-				oldY = this.getPosY();
-
-				findNewPosition();
-				makeAction();
+				oldX = this.getPosition().getPositionX();
+				oldY = this.getPosition().getPositionY();
+				this.pas.alea();
+				this.environnement.deplacerAgent(this);
 			}
 
-			if (sharkBreedTime == 0 && madeAMove(oldX, oldY)) {
-				Agent shark = new Shark(oldX, oldY, AgentColor.Rose, Direction.getRandomDirection());
-				Environment.getTab()[oldX][oldY] = shark;
-				SMA.listAgent.add(shark);
-				sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
-
-			} else if(sharkBreedTime == 0){
+			if (sharkBreedTime == 0) {
+				Agent shark = new Shark(new Position(oldX, oldY), new Pas(0, 0), this.environnement);
+				environnement.addAgent(shark);
+				SMA.agents.add(shark);
 				sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
 			}
 		} else {
-			SMA.listAgent.remove(this);
-			Environment.getTab()[getPosX()][getPosY()] = null;
+			SMA.agents.remove(this);
+			this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
 		}
-		setDirection(Direction.getRandomDirection());
+		this.pas.alea();
 
 	}
 	
