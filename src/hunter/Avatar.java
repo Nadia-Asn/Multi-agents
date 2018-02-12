@@ -8,11 +8,15 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
+import org.omg.CORBA.Environment;
+
 import core.Agent;
 import core.AgentColor;
 import core.DijsktraElement;
 import core.Direction;
-import core.Environment;
+import core.Environnement;
+import core.Pas;
+import core.Position;
 import core.PropertiesReader;
 import core.SMA;
 
@@ -23,8 +27,8 @@ public class Avatar extends Agent implements KeyListener {
     private int dirX = 0, dirY = 0, nbDefender =0;
     public static int speedAvatar;
 
-    public Avatar(int posX, int posY, AgentColor color, String direction){
-        super(posX, posY, color, direction);
+    public Avatar(Position position, Pas pas, Environnement environnement){
+        super(position, pas, environnement);
         this.tabDij = new int [Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"))]
                               [Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeY"))];
         resetTab();
@@ -32,7 +36,7 @@ public class Avatar extends Agent implements KeyListener {
     }
 
 	public void decide(){
-        if(SMA.nbTicks % speedAvatar== 0) {
+        if(environnement.getTicks() % speedAvatar== 0) {
             resetTab();
             setPosXTmp(getPosX() + dirX);
             setPosYTmp(getPosY() + dirY);
@@ -204,7 +208,6 @@ public class Avatar extends Agent implements KeyListener {
     }
 
     public void sendDijstraToHunter(){
-    	//printDij();
         Environment.sendDijktra(tabDij);
     }
     

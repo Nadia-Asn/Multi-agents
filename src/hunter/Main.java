@@ -11,10 +11,24 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        Environment env = new Environment();
+    	
+
+		Environnement env = new EnvironnementAgent((Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"))),(Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeY"))),Boolean.valueOf(PropertiesReader.getInstance().getProperties("torique")));
+		String strategie = PropertiesReader.getInstance().getProperties("scheduling");
+		SMA sma = new SMA(env, "hunter");
+		Thread.sleep(env.getDelay());
+		while (true) {
+			if("ALEATOIRE".equals(strategie)) {
+				for (int j = 0; j < env.getNbParticle(); j++) {
+					sma.runAleatoire();
+					Thread.sleep(env.getDelay());
+				}
+			} else if("EQUITABLE".equals(strategie) || "SEQUENTIEL".equals(strategie)) {
+				sma.runEquitable();
+			}
+			Thread.sleep(env.getDelay());
+		}
         GameChanger changer = new GameChanger();
-        View view = new View(env);
-        
         // Launch
         java.util.List<Agent> agents = new ArrayList<Agent>();
         SMA sma = new SMA(agents, view, "hunter");

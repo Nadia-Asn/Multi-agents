@@ -14,7 +14,7 @@ public class Hunter extends Agent{
 
     @Override
     public void decide() {
-        if (SMA.nbTicks % GameChanger.speedHunter == 0) {
+        if (this.environnement.getTicks() % GameChanger.speedHunter == 0) {
             if (dij != null) {
                 int currentValue = dij[getPosX()][getPosY()];
                 for (int i = 0; i < Direction.dir.length; i++) {
