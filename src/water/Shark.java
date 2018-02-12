@@ -57,8 +57,11 @@ public class Shark extends Agent{
 
 			if (sharkBreedTime == 0) {
 				Agent shark = new Shark(new Position(oldX, oldY), new Pas(0, 0), this.environnement);
+				shark.getPas().alea();
 				environnement.addAgent(shark);
 				SMA.agents.add(shark);
+				sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
+			} else if(sharkBreedTime < 0) {
 				sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
 			}
 		} else {
