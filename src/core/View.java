@@ -100,10 +100,20 @@ public class View extends JPanel implements Observer {
 		int posX = (env.getBoxSize() + 1) * x;
 		int posY = (env.getBoxSize() + 1) * y;
 		if(agent.getClass().equals(Shark.class)) {
-			g.setColor(Color.RED);
+			Shark shark = (Shark) agent;
+			if(shark.isBaby()) {
+				g.setColor(Color.PINK);
+			} else {
+				g.setColor(Color.RED);
+			}
 		}
 		if(agent.getClass().equals(Fish.class)) {
-			g.setColor(Color.BLUE);
+			Fish fish = (Fish) agent;
+			if(fish.isBaby()) {
+				g.setColor(Color.GREEN);
+			} else {
+				g.setColor(Color.BLUE);
+			}
 		}
 		g.fillRect(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
 	}

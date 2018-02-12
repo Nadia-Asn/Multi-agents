@@ -16,17 +16,43 @@ import core.SMA;
 public class Shark extends Agent{
 
 	int sharkBreedTime, sharkStarveTime;
+	boolean isBaby;
+	int babyTime;
 	
     public Shark(Position position, Pas pas, Environnement environnement){
         super(position, pas, environnement);
+        isBaby = true;
+        babyTime = 2;
         this.sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
         this.sharkStarveTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkStarveTime"));
     }
     
+	public boolean isBaby() {
+		return isBaby;
+	}
+
+	public void setBaby(boolean isBaby) {
+		this.isBaby = isBaby;
+	}
+
+	public int getBabyTime() {
+		return babyTime;
+	}
+
+	public void setBabyTime(int babyTime) {
+		this.babyTime = babyTime;
+	}
+
 	public void decide() {
 		sharkBreedTime--;
 		sharkStarveTime--;
-
+	
+		if(isBaby) {
+			babyTime--;
+		}
+		if(babyTime == 0) {
+			isBaby = false;
+		}
 		if(sharkStarveTime > 0) {
 			int oldX, oldY;
 			List<Fish> listfish = isFishAround();
