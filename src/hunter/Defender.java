@@ -4,15 +4,15 @@ import core.*;
 
 public class Defender extends Agent {
     public int nbCycleAlive;
-    public Defender(int posX, int posY, AgentColor color, String direction) {
-        super(posX,posY,color,direction);
+    public Defender(Position position, Pas pas, Environnement environnement) {
+        super(position, pas, environnement);
         nbCycleAlive = 0;
     }
     @Override
     public void decide() {
         if(nbCycleAlive == Integer.parseInt(PropertiesReader.getInstance().getProperties("defenderLife"))) {
-            SMA.listAgent.remove(this);
-            Environment.getTab()[getPosX()][getPosY()] = null;
+            SMA.agents.remove(this);
+            this.getEnvironnement().getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
         }
         nbCycleAlive ++;
     }

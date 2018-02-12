@@ -1,13 +1,15 @@
 package hunter;
 
 import core.Agent;
-import core.AgentColor;
+import core.Environnement;
+import core.Pas;
+import core.Position;
 
 
 public class Wall extends Agent {
 
-    public Wall(int posX, int posY, AgentColor color, String direction) {
-        super(posX, posY, color, direction);
+    public Wall(Position position, Pas pas, Environnement environnement) {
+        super(position, pas, environnement);
     }
     @Override
     public void decide() {
