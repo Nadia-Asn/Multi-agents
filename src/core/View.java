@@ -10,6 +10,9 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import hunter.Avatar;
+import hunter.Hunter;
+import hunter.Wall;
 import particules.Particule;
 import water.Fish;
 import water.Shark;
@@ -81,6 +84,8 @@ public class View extends JPanel implements Observer {
 			drawBallParticules(g, x, y, agent);
 		} else if(agent.getClass().equals(Shark.class) || agent.getClass().equals(Fish.class)) {
 			drawFishWater(g, x, y, agent);
+		} else {
+			drawHunterGame(g, x, y, agent);
 		}
 	}
 
@@ -116,5 +121,22 @@ public class View extends JPanel implements Observer {
 			}
 		}
 		g.fillRect(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
+	}
+	
+	private void drawHunterGame(Graphics g, int x, int y, Agent agent) {
+		int posX = (env.getBoxSize() + 1) * x;
+		int posY = (env.getBoxSize() + 1) * y;
+		if(agent.getClass().equals(Wall.class)) {
+			g.setColor(Color.RED);
+			g.fillRect(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
+		}
+		if(agent.getClass().equals(Hunter.class)) {
+			g.setColor(Color.YELLOW);
+			g.fillOval(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
+		}
+		if(agent.getClass().equals(Avatar.class)) {
+			g.setColor(Color.BLACK);
+			g.fillOval(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
+		}
 	}
 }
