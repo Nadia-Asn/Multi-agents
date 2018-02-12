@@ -23,6 +23,9 @@ public class Fish extends Agent{
 		
 		int oldX = this.getPosition().getPositionX();
 		int oldY = this.getPosition().getPositionY();
+		
+		this.pas.alea();
+		this.environnement.deplacerAgent(this);
 
 		if(fishBreedTime == 0){
 			Agent fish = new Fish(new Position(oldX, oldY), new Pas(0, 0), this.getEnvironnement());
@@ -32,8 +35,7 @@ public class Fish extends Agent{
 
 			fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
 		}
-		this.pas.alea();
-		this.environnement.deplacerAgent(this);
+		
 	}
 
 }

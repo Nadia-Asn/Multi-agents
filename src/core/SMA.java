@@ -93,8 +93,8 @@ public class SMA {
 	
 	public void runEquitable() {
 		for(int i = 0; i < ticks; i++) {
-			for(Agent agent : agents) {
-				agent.decide();
+			for(int agent = 0; agent< agents.size(); agent++) {
+				agents.get(agent).decide();
 			}
 			if("SEQUENTIEL".equals(strategie)) {
 				Collections.shuffle(agents);

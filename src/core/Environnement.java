@@ -47,31 +47,38 @@ public class Environnement extends Observable{
 			if(this.environnement[posX-1][posY-1] != null) {
 				agents.add(this.environnement[posX-1][posY-1]);
 			}
-		}else if(posY -1 >= 0) {	
+		} 
+		if(posY -1 >= 0) {	
 			if(this.environnement[posX][posY-1] != null) {
 				agents.add(this.environnement[posX][posY-1]);
 			}
-		}else if(posX+1 <= this.getGridSizeX() -1 && posY -1 >=0) {
+		} 
+		if(posX+1 <= this.getGridSizeX() -1 && posY -1 >=0) {
 			if(this.environnement[posX+1][posY-1] != null) {
 				agents.add(this.environnement[posX+1][posY-1]);
 			}
-		}else if(posX-1 >= 0) {
+		} 
+		if(posX-1 >= 0) {
 			if(this.environnement[posX-1][posY] != null) {
 				agents.add(this.environnement[posX-1][posY]);
 			}
-		}else if(posX+1 <= this.getGridSizeX()-1) {
+		} 
+		if(posX+1 <= this.getGridSizeX()-1) {
 			if(this.environnement[posX+1][posY] != null) {
 				agents.add(this.environnement[posX+1][posY]);
 			}
-		}else if(posX-1 >= 0 && posY +1 <= this.getGridSizeY()-1) {
+		} 
+		if(posX-1 >= 0 && posY +1 <= this.getGridSizeY()-1) {
 			if(this.environnement[posX-1][posY+1] != null) {
 				agents.add(this.environnement[posX-1][posY+1]);
 			}
-		}else if(posY+1 <= this.getGridSizeY()-1) {
+		} 
+		if(posY+1 <= this.getGridSizeY()-1) {
 			if(this.environnement[posX][posY+1] != null) {
 				agents.add(this.environnement[posX][posY+1]);
 			}
-		}else if(posX+1 <= this.getGridSizeX()-1 && posY+1 <= this.getGridSizeY()-1) {
+		} 
+		if(posX+1 <= this.getGridSizeX()-1 && posY+1 <= this.getGridSizeY()-1) {
 				if(this.environnement[posX+1][posY+1] != null) {
 					agents.add(this.environnement[posX+1][posY+1]);
 				}

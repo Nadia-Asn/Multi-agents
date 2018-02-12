@@ -69,6 +69,7 @@ public class Shark extends Agent{
 			this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
 		}
 		this.pas.alea();
+		environnement.notifyChanges();
 
 	}
 	
