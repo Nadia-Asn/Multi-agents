@@ -18,7 +18,7 @@ public class Hunter extends Agent{
             if (dij != null) {
                 int currentValue = dij[getPosX()][getPosY()];
                 for (int i = 0; i < Direction.dir.length; i++) {
-                    DijsktraElement element = Direction.getDirection(Direction.dir[i]);
+                    Dijsktra element = Direction.getDirection(Direction.dir[i]);
                     Hunter tmp = this;
                     tmp.setPosXTmp(getPosX() + element.getX());
                     tmp.setPosYTmp(getPosY() + element.getY());

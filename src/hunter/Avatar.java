@@ -12,7 +12,7 @@ import org.omg.CORBA.Environment;
 
 import core.Agent;
 import core.AgentColor;
-import core.DijsktraElement;
+import core.Dijsktra;
 import core.Direction;
 import core.Environnement;
 import core.Pas;
@@ -38,8 +38,8 @@ public class Avatar extends Agent implements KeyListener {
 	public void decide(){
         if(environnement.getTicks() % speedAvatar== 0) {
             resetTab();
-            setPosXTmp(getPosX() + dirX);
-            setPosYTmp(getPosY() + dirY);
+            int posXtmp = this.getPosition().getPositionX() + dirX;
+            int posYtmp = this.getPosition().getPositionY() + dirY;
 
             wallBounds();
             if (interditDeplacement()) {
@@ -142,58 +142,58 @@ public class Avatar extends Agent implements KeyListener {
     }
 
     public void doDijkstra(){
-        DijsktraElement element = new DijsktraElement(getPosX(), getPosY());
+        Dijsktra element = new Dijsktra(this.getPosition().getPositionX(), this.getPosition().getPositionY());
         int distance = 1;
         tabDij[element.getX()][element.getY()] = 0;
-        List<DijsktraElement> l = new ArrayList<DijsktraElement>();
+        List<Dijsktra> l = new ArrayList<Dijsktra>();
         l.add(element);
 
         while(!getNeighbour(l).isEmpty()){
             l = getNeighbour(l);
-            for (DijsktraElement e: l) {
+            for (Dijsktra e: l) {
                 tabDij[e.getX()][e.getY()] = distance;
             }
             distance++;
         }
     }
 
-    public List<DijsktraElement> getNeighbour(List<DijsktraElement> l_element){
-        List<DijsktraElement> l_Neighbour = new ArrayList<DijsktraElement>();
+    public List<Dijsktra> getNeighbour(List<Dijsktra> listelement){
+        List<Dijsktra> listNeighbour = new ArrayList<Dijsktra>();
 
-        for (DijsktraElement e:l_element) {
-            for (int i = 0; i < Direction.dir.length; i++) {
-                DijsktraElement newElement = Direction.getDirection(Direction.dir[i]);
-                int newX = e.getX() + newElement.getX();
-                int newY = e.getY() + newElement.getY();
+        for (Dijsktra element: listelement) {
+        	for(Pas pas : Pas.getAllPas()) {
+                Dijsktra newElement = new Dijsktra(pas.getPasX(), pas.getPasY());
+                int newX = element.getX() + newElement.getX();
+                int newY = element.getY() + newElement.getY();
 
                 if(PropertiesReader.getInstance().getProperties("torique").equals("true")) {
                 	if(newX == -1){
-                		newX = Environment.getTailleX() - 1;
+                		newX = environnement.getGridSizeX() - 1;
                 	} 
                 	if(newY == -1){
-                		newY = Environment.getTailleY() - 1;
+                		newY = environnement.getGridSizeY() - 1;
                 	} 
-                	if(newY == Environment.getTailleY()){
+                	if(newY == environnement.getGridSizeY()){
                 		newY = 0;
                 	}
-                	if(newX == Environment.getTailleX() ){
+                	if(newX == environnement.getGridSizeX()){
                 		newX = 0;
                 	}
                 }
                 
-                if(newX > -1 && newX < Environment.getTailleX() && newY > -1 && newY < Environment.getTailleY()) {
+                if(newX > -1 && newX <  environnement.getGridSizeX() && newY > -1 && newY < environnement.getGridSizeY()) {
                 	
 	                    if (tabDij[newX][newY] == -1) {
 	                        newElement.setX(newX);
 	                        newElement.setY(newY);
-	                        l_Neighbour.add(newElement);
+	                        listNeighbour.add(newElement);
 	                    }
                 }
                 
             }
         }
 
-        return l_Neighbour;
+        return listNeighbour;
     }
 
     public void resetTab(){

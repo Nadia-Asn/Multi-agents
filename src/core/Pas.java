@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Pas {
@@ -55,5 +57,19 @@ public class Pas {
 			xRandom=-xRandom;
 		};
 	    return xRandom;
+	}
+	
+	public static List<Pas> getAllPas() {
+		List<Pas> listPas = new ArrayList<Pas>();
+		listPas.add(new Pas(0, -1));
+		listPas.add(new Pas(0, 1));
+		listPas.add(new Pas(-1, 0));
+		listPas.add(new Pas(1, 0));
+		listPas.add(new Pas(-1, -1));
+		listPas.add(new Pas(1, -1));
+		listPas.add(new Pas(-1, 1));
+		listPas.add(new Pas(1, 1));
+		
+		return listPas;
 	}
 }
