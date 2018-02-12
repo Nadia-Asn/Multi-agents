@@ -11,6 +11,7 @@ public class Main {
         Environnement env = new EnvironnementAgent((Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"))),(Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeY"))),Boolean.valueOf(PropertiesReader.getInstance().getProperties("torique")));
         SMA sma = new SMA(env, "water");
         String strategie = PropertiesReader.getInstance().getProperties("scheduling");
+        Thread.sleep(env.getDelay());
 		while (true) {
 			if("ALEATOIRE".equals(strategie)) {
 				for (int j = 0; j < env.getNbParticle(); j++) {

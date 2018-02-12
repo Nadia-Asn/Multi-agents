@@ -34,6 +34,8 @@ public class Fish extends Agent{
 			SMA.agents.add(fish);
 
 			fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
+		} else if(fishBreedTime <0) {
+			fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
 		}
 		
 	}
