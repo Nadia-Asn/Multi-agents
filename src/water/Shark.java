@@ -29,7 +29,7 @@ public class Shark extends Agent{
 
 		if(sharkStarveTime > 0) {
 			int oldX, oldY;
-			List<Fish> listfish = isAFishAround();
+			List<Fish> listfish = isFishAround();
 			if (!listfish.isEmpty()) {
 				Random r = new Random();
 				Fish poissonMange = listfish.get(r.nextInt(listfish.size()));
@@ -69,82 +69,57 @@ public class Shark extends Agent{
 
 	}
 	
-	/*
-	 * 
-	 * @return
-	 */
-	public List<Fish> isAFishAround(){
+	public List<Fish> isFishAround(){
 		int x = 0, y = 0;
-		List<Fish> l_fish = new ArrayList<Fish>();
-		for(int i=0;i<Direction.dir.length; i++) {
-
-			switch (Direction.dir[i]) {
-				case "N":
-					x = getPosX() - 1;
-					y = getPosY();
-					break;
-				case "S":
-					x = getPosX() + 1;
-					y = getPosY();
-					break;
-				case "W":
-					x = getPosX();
-					y = getPosY() - 1;
-					break;
-				case "E":
-					x = getPosX();
-					y = getPosY() + 1;
-					break;
-				case "NW":
-					x = getPosX() - 1;
-					y = getPosY() - 1;
-					break;
-				case "NE":
-					x = getPosX() - 1;
-					y = getPosY() + 1;
-					break;
-				case "SW":
-					x = getPosX() + 1;
-					y = getPosY() - 1;
-					break;
-				case "SE":
-					x = getPosX() + 1;
-					y = getPosY() + 1;
-					break;
+		List<Fish> listfish = new ArrayList<Fish>();
+		int posX = this.getPosition().getPositionX();
+		int posY = this.getPosition().getPositionY();
+		
+		List<Agent> listAgent = environnement.getVoisins(this.getPosition());
+		
+		for(Agent agent : listAgent) {
+			if(agent.getClass().equals(Fish.class)) {
+				listfish.add((Fish)agent);
 			}
-			// Outside the map
-			if(x >= Environment.getTailleX()){
-				x = 0;
-				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
-					x = Environment.getTailleX() - 2;
-				}
-			}
-			if(x == -1){
-				x = Environment.getTailleX() - 1;
-				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
-					x = 1;
-				}
-			}
-			if(x >= Environment.getTailleY()){
-				y = 0;
-				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
-					y = Environment.getTailleY() - 2;
-
-                }
-			}
-			if(y == -1){
-				y = Environment.getTailleY() - 1;
-				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
-					y = 1;
-
-                }
-			}
-			if(x > -1 && x < Environment.getTailleX() && y > -1 && y < Environment.getTailleY())
-				if(Environment.getTab()[x][y] != null && Environment.getTab()[x][y].getClass().equals(Fish.class))
-					l_fish.add((Fish)Environment.getTab()[x][y]);
 		}
+		
+		
+//		for(int i=0;i<Direction.dir.length; i++) {
+//
+//			
+//			// Outside the map
+//			if(x >= Environment.getTailleX()){
+//				x = 0;
+//				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+//					x = Environment.getTailleX() - 2;
+//				}
+//			}
+//			if(x == -1){
+//				x = Environment.getTailleX() - 1;
+//				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+//					x = 1;
+//				}
+//			}
+//			if(x >= Environment.getTailleY()){
+//				y = 0;
+//				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+//					y = Environment.getTailleY() - 2;
+//
+//                }
+//			}
+//			if(y == -1){
+//				y = Environment.getTailleY() - 1;
+//				if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+//					y = 1;
+//
+//                }
+//			}
+//			if(x > -1 && x < Environment.getTailleX() && y > -1 && y < Environment.getTailleY())
+//				if(Environment.getTab()[x][y] != null && Environment.getTab()[x][y].getClass().equals(Fish.class))
+//					l_fish.add((Fish)Environment.getTab()[x][y]);
+//		}
 
-		return l_fish;
+		return listfish;
 	}
 
 }

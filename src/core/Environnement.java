@@ -1,6 +1,8 @@
 package core;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import javax.swing.JFrame;
@@ -35,6 +37,46 @@ public class Environnement extends Observable{
 		}else{
 			return false;
 		}
+	}
+	
+	public List<Agent> getVoisins(Position position) {
+		List<Agent> agents = new ArrayList<Agent>();
+		int posX = position.getPositionX();
+		int posY = position.getPositionY();
+		if(posX -1 >= 0 && posY-1 >= 0) {
+			if(this.environnement[posX-1][posY-1] != null) {
+				agents.add(this.environnement[posX-1][posY-1]);
+			}
+		}else if(posY -1 >= 0) {	
+			if(this.environnement[posX][posY-1] != null) {
+				agents.add(this.environnement[posX][posY-1]);
+			}
+		}else if(posX+1 <= this.getGridSizeX() -1 && posY -1 >=0) {
+			if(this.environnement[posX+1][posY-1] != null) {
+				agents.add(this.environnement[posX+1][posY-1]);
+			}
+		}else if(posX-1 >= 0) {
+			if(this.environnement[posX-1][posY] != null) {
+				agents.add(this.environnement[posX-1][posY]);
+			}
+		}else if(posX+1 <= this.getGridSizeX()-1) {
+			if(this.environnement[posX+1][posY] != null) {
+				agents.add(this.environnement[posX+1][posY]);
+			}
+		}else if(posX-1 >= 0 && posY +1 <= this.getGridSizeY()-1) {
+			if(this.environnement[posX-1][posY+1] != null) {
+				agents.add(this.environnement[posX-1][posY+1]);
+			}
+		}else if(posY+1 <= this.getGridSizeY()-1) {
+			if(this.environnement[posX][posY+1] != null) {
+				agents.add(this.environnement[posX][posY+1]);
+			}
+		}else if(posX+1 <= this.getGridSizeX()-1 && posY+1 <= this.getGridSizeY()-1) {
+				if(this.environnement[posX+1][posY+1] != null) {
+					agents.add(this.environnement[posX+1][posY+1]);
+				}
+		}
+		return agents;
 	}
 
 
@@ -85,7 +127,9 @@ public class Environnement extends Observable{
 
 		environnement[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = null;
 		
-		agent.update();
+		do {
+			agent.update();
+		} while(!caseLibre(agent.getPosition().getPositionX(), agent.getPosition().getPositionY()));
 
 		environnement[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = agent;
 
@@ -188,9 +232,4 @@ public class Environnement extends Observable{
 	public int getTicks() {
 		return Integer.parseInt(PropertiesReader.getInstance().getProperties("nbTicks"));
 	}
-	
-	
-	
-	
-
 }

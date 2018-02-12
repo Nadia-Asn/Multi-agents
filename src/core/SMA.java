@@ -42,10 +42,10 @@ public class SMA {
 		ticks = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbTicks")));
 		strategie = PropertiesReader.getInstance().getProperties("scheduling");
 		
-		if (gridsizeX * gridsizeY < nbParticles) {
-			throw new IllegalArgumentException("Le nombre de particule dépasse la capacité de la grille !");
-		}
 		if("particules".equals(this.game)) {
+			if (gridsizeX * gridsizeY < nbParticles) {
+				throw new IllegalArgumentException("Le nombre de particule dépasse la capacité de la grille !");
+			}
 			for (int i = 0; i < nbParticles; i++) {
 				int posXRandom , posYRandom = 0;
 				int pasXRandom = 0;

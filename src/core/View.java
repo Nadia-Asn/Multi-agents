@@ -10,6 +10,10 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import particules.Particule;
+import water.Fish;
+import water.Shark;
+
 
 public class View extends JPanel implements Observer {
 	private static final long serialVersionUID = 1L;
@@ -67,13 +71,17 @@ public class View extends JPanel implements Observer {
 				Agent agent = env.getEnvironnement()[i][j];
 
 				if (agent != null) {
-					drawBall(g, i, j, agent);
+					draw(g, i, j, agent);
 				}
 			}
 		}
 	}
-	private void drawBall(Graphics g, int x, int y, Agent agent) {
-		drawBallParticules(g, x, y, agent);
+	private void draw(Graphics g, int x, int y, Agent agent) {
+		if(agent.getClass().equals(Particule.class)) {
+			drawBallParticules(g, x, y, agent);
+		} else if(agent.getClass().equals(Shark.class) || agent.getClass().equals(Fish.class)) {
+			drawFishWater(g, x, y, agent);
+		}
 	}
 
 
@@ -86,5 +94,17 @@ public class View extends JPanel implements Observer {
 			g.setColor(Color.BLACK);
 		}
 		g.fillOval(posX, posY, env.getBoxSize() + 1, env.getBoxSize() + 1);
+	}
+	
+	private void drawFishWater(Graphics g, int x, int y, Agent agent) {
+		int posX = (env.getBoxSize() + 1) * x;
+		int posY = (env.getBoxSize() + 1) * y;
+		if(agent.getClass().equals(Shark.class)) {
+			g.setColor(Color.RED);
+		}
+		if(agent.getClass().equals(Fish.class)) {
+			g.setColor(Color.BLUE);
+		}
+		g.fillRect(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
 	}
 }
