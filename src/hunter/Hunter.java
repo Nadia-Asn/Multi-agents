@@ -23,26 +23,17 @@ public class Hunter extends Agent{
                     Dijsktra element = new Dijsktra(pas.getPasX(), pas.getPasY());
                     Position position = new Position(this.getPosition().getPositionX() + element.getX(), this.getPosition().getPositionY() + element.getY());
                     wallBounds(position);
-                    if(!(Environment.getTab()[tmp.getPosXTmp()][tmp.getPosYTmp()] instanceof Hunter)){
-	                    if (dij[tmp.getPosXTmp()][tmp.getPosYTmp()] < currentValue) {         	
-	                    	Environment.getTab()[getPosX()][getPosY()] = null;
+                    if(!(environnement.getEnvironnement()[position.getPositionX()][position.getPositionY()] instanceof Hunter)){
+	                    if (dij[position.getPositionX()][position.getPositionY()] < currentValue) {         	
+	                    	this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
 	
-	                    	setPosX(tmp.getPosXTmp());
-	                    	setPosY(tmp.getPosYTmp());
+	                    	this.setPosition(position);
 	
-	                		Environment.getTab()[getPosX()][getPosY()] = this;
+	                		this.environnement.getEnvironnement()[this.position.getPositionX()][this.position.getPositionY()] = this;
 	                		
-	                		if(dij[getPosX()][getPosY()] == 0) {
-                                JOptionPane.showMessageDialog(null, "GAME OVER");
-                                while (true) {
-                                    try {
-                                        Thread.sleep(Long.MAX_VALUE);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+	                		if(dij[this.getPosition().getPositionX()][this.getPosition().getPositionY()] == 0) {
+                                System.out.println("Perdu");
                             }
-	                		i = Direction.dir.length+1;
 	                    }
                     }
                 }
