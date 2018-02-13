@@ -1,5 +1,7 @@
 package core;
 
+
+
 public abstract class Agent {
 	
 	protected Environnement environnement;
@@ -192,5 +194,59 @@ public abstract class Agent {
 	public void setEnvironnement(Environnement environnement) {
 		this.environnement = environnement;
 	}
+	
+	public void wallBounds(Position position) {
+		boolean changed = false;
+		if(position.getPositionX() >= this.environnement.getGridSizeX()){
+			Pas directionMur =  findWall(position);
+			position.setPositionX(0);
+			if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+				position.setPositionX(this.environnement.getGridSizeX()- 2);
+				this.pas = Pas.getPasOppose(this.getPas(), directionMur);
+				changed = true;
+			}
+		}
+		if(position.getPositionX() == -1){
+			Pas directionMur = findWall(position);
+			position.setPositionX(this.environnement.getGridSizeX() - 1);
+			if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+				position.setPositionX(1);
+				this.pas = Pas.getPasOppose(this.getPas(), directionMur);
+				changed = true;
+			}
+		}
+		if(position.getPositionY() >= this.environnement.getGridSizeY()){
+			Pas directionMur = findWall(position);
+			position.setPositionY(0);
+			if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+				position.setPositionY(this.environnement.getGridSizeY() - 2);
+				if(!changed)this.pas = Pas.getPasOppose(this.getPas(), directionMur);
+			}
+		}
+		if(position.getPositionY() == -1){
+			Pas directionMur = findWall(position);
+			position.setPositionY(this.environnement.getGridSizeY() - 1);
+			if((PropertiesReader.getInstance().getProperties("torique").equals("false"))) {
+				position.setPositionY(1);
+				if(!changed)this.pas = Pas.getPasOppose(this.getPas(), directionMur);
+			}
+		}
+	}
+	
+	public Pas findWall(Position position) {
+        if(position.getPositionX() == -1) { 
+        	return new Pas(-1, 0);
+        } 
+        if(position.getPositionX() >= environnement.getGridSizeX()) {
+        	return new Pas(1, 0);
+        }
+        if(position.getPositionY() == -1) {
+        	return new Pas(0, -1);
+        }
+        if(position.getPositionY() >= environnement.getGridSizeY()) {
+        	return new Pas(0, 1);
+        }
+        return null;
+    }
 
 }

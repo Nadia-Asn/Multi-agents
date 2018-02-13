@@ -72,4 +72,53 @@ public class Pas {
 		
 		return listPas;
 	}
+	
+	public static Pas getPasOppose(Pas pas, Pas mur) {
+		boolean versLeNord = pas.getPasX() == 0 && pas.getPasY() == -1;
+		boolean versLeSud = pas.getPasX() == 0 && pas.getPasY() == 1;
+		boolean versLOuest = pas.getPasX() == -1 && pas.getPasY() == 0;
+		boolean verslEst = pas.getPasX() == 1 && pas.getPasY() == 0;
+		boolean versNordOuest = pas.getPasX() == -1 && pas.getPasY() == -1;
+		boolean versSudEst = pas.getPasX() == 1 && pas.getPasY() == 1;
+		boolean versNordEst = pas.getPasX() == 1 && pas.getPasY() == -1;
+		boolean versSudOuest = pas.getPasX() == -1 && pas.getPasY() == 1;
+		
+		boolean murAuNord = mur.getPasX() == 0 && mur.getPasY() == -1;
+		boolean murAuSud = mur.getPasX() == 0 && mur.getPasY() == 1;
+		
+		if(versLeNord) {
+			return new Pas(0, -1);
+		} else if(versLeSud) {
+			return new Pas(0, -1);
+		} else if(versLOuest) {
+			return new Pas(1, 0);
+		} else if(verslEst) {
+			return new Pas(-1, 0);
+		} else if(versNordOuest) {
+			if(murAuNord) {
+				return new Pas(-1, 1);
+			}else {
+				return new Pas (1, -1);
+			}
+		} else if(versSudEst) {
+			if(murAuSud) {
+				return new Pas(1,-1);
+			}else {
+				return new Pas(-1, 1);
+			}
+		} else if(versNordEst) {
+			if(murAuNord) {
+				return new Pas(1, 1);
+			} else {
+				return new Pas(-1, -1);
+			}
+		} else if(versSudOuest) {
+			if(murAuSud) {
+				return new Pas(-1, -1);
+			} else {
+				return new Pas(1, 1);
+			}
+		}
+		return null;
+	}
 }

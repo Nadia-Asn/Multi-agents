@@ -11,9 +11,7 @@ import javax.swing.JOptionPane;
 import org.omg.CORBA.Environment;
 
 import core.Agent;
-import core.AgentColor;
 import core.Dijsktra;
-import core.Direction;
 import core.Environnement;
 import core.Pas;
 import core.Position;
@@ -199,7 +197,7 @@ public class Avatar extends Agent implements KeyListener {
     public void resetTab(){
         for (int i = 0; i<tabDij.length; i++){
             for(int j = 0; j<tabDij[i].length; j++)
-            	if((Environment.getTab()[i][j] instanceof Wall || Environment.getTab()[i][j] instanceof Defender)){
+            	if((environnement.getEnvironnement()[i][j] instanceof Wall || environnement.getEnvironnement()[i][j] instanceof Defender)){
             		tabDij[i][j] = Integer.MAX_VALUE;
             	} else {
             		tabDij[i][j] = -1;

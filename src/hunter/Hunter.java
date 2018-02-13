@@ -8,22 +8,21 @@ import javax.swing.*;
 public class Hunter extends Agent{
 
     int [][] dij;
+    int speedHunter;
     public Hunter(Position position, Pas pas, Environnement environnement){
         super(position, pas, environnement);
+        speedHunter = Integer.parseInt(PropertiesReader.getInstance().getProperties("speedHunter"));
     }
 
     @Override
     public void decide() {
-        if (this.environnement.getTicks() % GameChanger.speedHunter == 0) {
+        if (this.environnement.getTicks() % speedHunter == 0) {
             if (dij != null) {
-                int currentValue = dij[getPosX()][getPosY()];
-                for (int i = 0; i < Direction.dir.length; i++) {
-                    Dijsktra element = Direction.getDirection(Direction.dir[i]);
-                    Hunter tmp = this;
-                    tmp.setPosXTmp(getPosX() + element.getX());
-                    tmp.setPosYTmp(getPosY() + element.getY());
-
-                    tmp.wallBounds();
+                int currentValue = dij[this.getPosition().getPositionX()][this.getPosition().getPositionY()];
+                for(Pas pas : Pas.getAllPas()) {
+                    Dijsktra element = new Dijsktra(pas.getPasX(), pas.getPasY());
+                    Position position = new Position(this.getPosition().getPositionX() + element.getX(), this.getPosition().getPositionY() + element.getY());
+                    wallBounds(position);
                     if(!(Environment.getTab()[tmp.getPosXTmp()][tmp.getPosYTmp()] instanceof Hunter)){
 	                    if (dij[tmp.getPosXTmp()][tmp.getPosYTmp()] < currentValue) {         	
 	                    	Environment.getTab()[getPosX()][getPosY()] = null;
