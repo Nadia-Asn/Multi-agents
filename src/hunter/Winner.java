@@ -12,6 +12,5 @@ public class Winner extends Agent {
 
     @Override
     public void decide() {
-
     }
 }

@@ -20,6 +20,7 @@ public class SMA {
 	private Random random = new Random();
 	private int ticks;
 	private int gridsizeX, gridsizeY;
+	private int delay;
 	private String strategie;
 	private String game;
 	public static boolean gameStop;
@@ -48,6 +49,7 @@ public class SMA {
 		int nbShark = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbShark")));
 		ticks = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbTicks")));
 		strategie = PropertiesReader.getInstance().getProperties("scheduling");
+		delay = (Integer.parseInt(PropertiesReader.getInstance().getProperties("delay")));
 		int nbWalls = (int)((gridsizeX*gridsizeY)*Integer.parseInt(PropertiesReader.getInstance().getProperties("wallsPercent"))/100f);
 		int nbHunter = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbHunter")));
 		
@@ -96,6 +98,11 @@ public class SMA {
 	public void runEquitable() {
 		if(!SMA.gameStop) {
 			for(int i = 0; i < ticks; i++) {
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				if("hunter".equals(this.game)) {
 					Random r = new Random();
 					int rand = r.nextInt(20);

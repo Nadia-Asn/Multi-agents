@@ -57,11 +57,6 @@ public class Avatar extends Agent implements KeyListener {
                         this.environnement.getEnvironnement()[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = agent;
                     }
                 }
-                try {
-					Thread.sleep(speedAvatar*100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
                 if(this.environnement.getEnvironnement()[getPosition().getPositionX()][getPosition().getPositionY()] instanceof Winner) {
                    System.out.println("Gagné");
                    SMA.gameStop = true;

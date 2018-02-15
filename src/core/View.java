@@ -31,8 +31,8 @@ public class View extends JPanel implements Observer {
 
 	public View(Environnement env) {
 		super();
-		this.frameX = env.getGridSizeX()* env.getBoxSize() + 2;
-		this.frameY = env.getGridSizeY()* env.getBoxSize() + 2;
+		this.frameX = env.getGridSizeX()* env.getBoxSize() + env.getGridSizeX()+1;
+		this.frameY = env.getGridSizeY()* env.getBoxSize() + env.getGridSizeY()+1;
 		this.env = env;
 		this.env.addObserver(this);
 		this.setSize(new Dimension(frameX,frameY));
@@ -61,10 +61,10 @@ public class View extends JPanel implements Observer {
 		this.setBackground(Color.WHITE);
 		g.setColor(Color.BLACK);
 		if (env.showGrille()) {
-			for (int i = env.getBoxSize() + 1; i < frameX; i += env.getBoxSize() + 1) {
+			for (int i = env.getBoxSize()+1; i < frameX; i += env.getBoxSize()+1) {
 				g.drawLine(i, 0, i, frameY);
 			}
-			for (int i = env.getBoxSize() + 1; i < frameY; i += env.getBoxSize() + 1) {
+			for (int i = env.getBoxSize()+1; i <= frameY; i += env.getBoxSize()+1) {
 				g.drawLine(0, i, frameX, i);
 			}
 		}
@@ -121,7 +121,7 @@ public class View extends JPanel implements Observer {
 				g.setColor(Color.BLUE);
 			}
 		}
-		g.fillRect(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
+		g.fillOval(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
 	}
 	
 	private void drawHunterGame(Graphics g, int x, int y, Agent agent) {
