@@ -34,6 +34,7 @@ public class Particule extends Agent {
 
 			environnement.deplacerAgent(this);
 		}
+		environnement.notifyChanges();
 	}
 
 }

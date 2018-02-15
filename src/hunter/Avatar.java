@@ -33,7 +33,6 @@ public class Avatar extends Agent implements KeyListener {
     }
 
 	public void decide(){
-        if(environnement.getTicks() % speedAvatar== 0) {
             resetTab();
             Position position = new Position(this.getPosition().getPositionX() + dirX, this.getPosition().getPositionY() + dirY);
            
@@ -58,15 +57,20 @@ public class Avatar extends Agent implements KeyListener {
                         this.environnement.getEnvironnement()[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = agent;
                     }
                 }
+                try {
+					Thread.sleep(speedAvatar*100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
                 if(this.environnement.getEnvironnement()[getPosition().getPositionX()][getPosition().getPositionY()] instanceof Winner) {
                    System.out.println("Gagné");
+                   SMA.gameStop = true;
                 }
                 this.environnement.getEnvironnement()[getPosition().getPositionX()][getPosition().getPositionY()] = this;
             }
             algoDijkstra();
             sendDijstraToHunter();
             this.environnement.notifyChanges();
-        }
     }
 	
     public boolean deplacementPossible(Position position) {

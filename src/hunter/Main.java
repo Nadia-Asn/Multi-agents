@@ -30,12 +30,10 @@ public class Main {
 			if("ALEATOIRE".equals(strategie)) {
 				for (int j = 0; j < env.getNbParticle(); j++) {
 					sma.runAleatoire();
-					Thread.sleep(env.getDelay());
 				}
 			} else if("EQUITABLE".equals(strategie) || "SEQUENTIEL".equals(strategie)) {
 				sma.runEquitable();
 			}
-			Thread.sleep(env.getDelay());
 		}
     }
 

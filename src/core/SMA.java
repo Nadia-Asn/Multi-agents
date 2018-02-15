@@ -53,7 +53,7 @@ public class SMA {
 		
 		if("particules".equals(this.game)) {
 			if (gridsizeX * gridsizeY < nbParticles) {
-				throw new IllegalArgumentException("Le nombre de particule dÃ©passe la capacitÃ© de la grille !");
+				throw new IllegalArgumentException("Le nombre de particule dépasse la capacité de la grille !");
 			}
 			for (int i = 0; i < nbParticles; i++) {
 				Position position = this.getRandomPosition();

@@ -20,7 +20,6 @@ public class Hunter extends Agent{
 
     @Override
     public void decide() {
-        if (this.environnement.getTicks() % speedHunter == 0) {
             if (dij != null) {
                 int currentValue = dij[this.getPosition().getPositionX()][this.getPosition().getPositionY()];
                 for(Pas pas : Pas.getAllPas()) {
@@ -28,7 +27,12 @@ public class Hunter extends Agent{
                     Position position = new Position(this.getPosition().getPositionX() + dir.getX(), this.getPosition().getPositionY() + dir.getY());
                     wallBounds(position);
                     if(!(environnement.getEnvironnement()[position.getPositionX()][position.getPositionY()] instanceof Hunter)){
-	                    if (dij[position.getPositionX()][position.getPositionY()] < currentValue) {         	
+	                    if (dij[position.getPositionX()][position.getPositionY()] < currentValue) {  
+	                    	try {
+								Thread.sleep(speedHunter*100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
 	                    	this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
 	
 	                    	this.setPosition(position);
@@ -44,7 +48,6 @@ public class Hunter extends Agent{
                     }
                 }
             }
-        }
         this.environnement.notifyChanges();
     }
 

@@ -154,7 +154,10 @@ public class Environnement extends Observable{
 		notifyChanges();
 	}
 	
-	
+	/**
+	 * Send dijkstra to hunter
+	 * @param dij
+	 */
 	public void sendDijktra(int [][] dij){
 		for (int i = 0; i< environnement.length; i++) {
 			for (int j = 0; j < environnement[i].length; j++)
