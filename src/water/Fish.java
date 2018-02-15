@@ -50,13 +50,22 @@ public class Fish extends Agent{
 		int oldX = this.getPosition().getPositionX();
 		int oldY = this.getPosition().getPositionY();
 		
+		deplacement();
+
+		reproduction(oldX, oldY);
+		this.environnement.notifyChanges();
+	}
+
+	private void deplacement() {
 		this.pas.genererPasAleatoire(this);
 		this.environnement.deplacerAgent(this);
+	}
 
+	private void reproduction(int oldX, int oldY) {
 		if(fishBreedTime == 0){
 			if(environnement.caseDispo(oldX, oldY)) {
 				Agent fish = new Fish(new Position(oldX, oldY), new Pas(0, 0), this.getEnvironnement());
-				fish.getPas().alea();
+				fish.getPas().genererPasAleatoire(fish);;
 				environnement.addAgent(fish);
 				SMA.agents.add(fish);
 			}
@@ -64,7 +73,6 @@ public class Fish extends Agent{
 		} else if(fishBreedTime <0) {
 			fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
 		}
-		this.environnement.notifyChanges();
 	}
 
 }

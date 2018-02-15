@@ -29,7 +29,6 @@ public class Main {
 					sma.runAleatoire();
 				}
 			} else if("EQUITABLE".equals(strategie) || "SEQUENTIEL".equals(strategie)) {
-				Thread.sleep(env.getDelay());
 				sma.runEquitable();
 			}
 			
