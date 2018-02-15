@@ -51,6 +51,12 @@ public class Pas {
 		}
 	}
 	
+	public void genererPasAleatoire(Agent agent) {
+		Random r = new Random();
+		List<Pas> pas = getAllPas();
+		agent.setPas(pas.get(r.nextInt(pas.size()-1)));
+	}
+	
 	public static int generatRandomPositiveNegitiveValue(int max , int min) {
 		int xRandom = r.nextInt(max-min) + min;
 		if (r.nextBoolean()) {

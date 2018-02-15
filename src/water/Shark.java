@@ -77,16 +77,18 @@ public class Shark extends Agent{
 
 				oldX = this.getPosition().getPositionX();
 				oldY = this.getPosition().getPositionY();
-				this.pas.alea();
+				this.pas.genererPasAleatoire(this);
 				this.environnement.deplacerAgent(this);
 			}
 
 			if (sharkBreedTime == 0) {
-				Agent shark = new Shark(new Position(oldX, oldY), new Pas(0, 0), this.environnement);
-				shark.getPas().alea();
-				environnement.addAgent(shark);
-				SMA.agents.add(shark);
-				sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
+				if(environnement.caseDispo(oldX, oldY)) {
+					Agent shark = new Shark(new Position(oldX, oldY), new Pas(0, 0), this.environnement);
+					shark.getPas().alea();
+					environnement.addAgent(shark);
+					SMA.agents.add(shark);
+					sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
+				}
 			} else if(sharkBreedTime < 0) {
 				sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
 			}

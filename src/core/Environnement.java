@@ -147,7 +147,7 @@ public class Environnement extends Observable{
 		
 		do {
 			agent.update();
-		} while(!caseLibre(agent.getPosition().getPositionX(), agent.getPosition().getPositionY()));
+		} while(!caseDispo(agent.getPosition().getPositionX(), agent.getPosition().getPositionY()));
 
 		environnement[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = agent;
 
