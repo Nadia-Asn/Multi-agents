@@ -7,12 +7,14 @@ import java.util.Observable;
 
 import javax.swing.JFrame;
 
+import hunter.Hunter;
+
 public class Environnement extends Observable{
 	
-	private Agent[][] environnement;
+	private static Agent[][] environnement;
 		
 	public Environnement(int x, int y, boolean torus) {
-		this.environnement = new Agent[x][y];
+		environnement = new Agent[x][y];
 	}
 
 
@@ -44,43 +46,43 @@ public class Environnement extends Observable{
 		int posX = position.getPositionX();
 		int posY = position.getPositionY();
 		if(posX -1 >= 0 && posY-1 >= 0) {
-			if(this.environnement[posX-1][posY-1] != null) {
-				agents.add(this.environnement[posX-1][posY-1]);
+			if(environnement[posX-1][posY-1] != null) {
+				agents.add(environnement[posX-1][posY-1]);
 			}
 		} 
 		if(posY -1 >= 0) {	
-			if(this.environnement[posX][posY-1] != null) {
-				agents.add(this.environnement[posX][posY-1]);
+			if(environnement[posX][posY-1] != null) {
+				agents.add(environnement[posX][posY-1]);
 			}
 		} 
 		if(posX+1 <= this.getGridSizeX() -1 && posY -1 >=0) {
-			if(this.environnement[posX+1][posY-1] != null) {
-				agents.add(this.environnement[posX+1][posY-1]);
+			if(environnement[posX+1][posY-1] != null) {
+				agents.add(environnement[posX+1][posY-1]);
 			}
 		} 
 		if(posX-1 >= 0) {
-			if(this.environnement[posX-1][posY] != null) {
-				agents.add(this.environnement[posX-1][posY]);
+			if(environnement[posX-1][posY] != null) {
+				agents.add(environnement[posX-1][posY]);
 			}
 		} 
 		if(posX+1 <= this.getGridSizeX()-1) {
-			if(this.environnement[posX+1][posY] != null) {
-				agents.add(this.environnement[posX+1][posY]);
+			if(environnement[posX+1][posY] != null) {
+				agents.add(environnement[posX+1][posY]);
 			}
 		} 
 		if(posX-1 >= 0 && posY +1 <= this.getGridSizeY()-1) {
-			if(this.environnement[posX-1][posY+1] != null) {
-				agents.add(this.environnement[posX-1][posY+1]);
+			if(environnement[posX-1][posY+1] != null) {
+				agents.add(environnement[posX-1][posY+1]);
 			}
 		} 
 		if(posY+1 <= this.getGridSizeY()-1) {
-			if(this.environnement[posX][posY+1] != null) {
-				agents.add(this.environnement[posX][posY+1]);
+			if(environnement[posX][posY+1] != null) {
+				agents.add(environnement[posX][posY+1]);
 			}
 		} 
 		if(posX+1 <= this.getGridSizeX()-1 && posY+1 <= this.getGridSizeY()-1) {
-				if(this.environnement[posX+1][posY+1] != null) {
-					agents.add(this.environnement[posX+1][posY+1]);
+				if(environnement[posX+1][posY+1] != null) {
+					agents.add(environnement[posX+1][posY+1]);
 				}
 		}
 		return agents;
@@ -107,6 +109,15 @@ public class Environnement extends Observable{
 				posY = 0;
 			}
 		return null == environnement[posX][posY];
+	}
+	
+	public boolean caseDispo(int posX, int posY){
+		if(posX < 0 || posY < 0 || posX > this.getGridSizeX() || posY > this.getGridSizeY())
+			return false;
+		else if (environnement[posX][posY] != null )
+			return false;
+		
+		return true;
 	}
 	
 	/**
@@ -142,6 +153,17 @@ public class Environnement extends Observable{
 
 		notifyChanges();
 	}
+	
+	
+	public void sendDijktra(int [][] dij){
+		for (int i = 0; i< environnement.length; i++) {
+			for (int j = 0; j < environnement[i].length; j++)
+				if (environnement[i][j] instanceof Hunter) {
+					Hunter h = (Hunter) environnement[i][j];
+					h.setDij(dij);
+				}
+		}
+	}
 
 
 
@@ -159,15 +181,15 @@ public class Environnement extends Observable{
 	 * Setter de l'attribut {@link Environnement#environnement}
 	 * @param environnement l'attribut {@link Environnement#environnement} à setter
 	 */
-	public void setEnvironnement(Agent[][] environnement) {
-		this.environnement = environnement;
+	public void setEnvironnement(Agent[][] penvironnement) {
+		environnement = penvironnement;
 	}
 	
 	
 	public JFrame createWindow(String name) {
 		JFrame fenetre = new JFrame();
 		fenetre.setTitle(name);
-		fenetre.setSize(getGridSizeX() * getBoxSize() +getGridSizeX(), getGridSizeY() *getBoxSize() + getGridSizeY());
+		fenetre.setSize((getBoxSize()*getGridSizeX()+2 * getBoxSize()), getBoxSize()*getGridSizeY()+getBoxSize()+2 * getBoxSize());
 		fenetre.setLocationRelativeTo(null);
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setBackground(Color.WHITE);

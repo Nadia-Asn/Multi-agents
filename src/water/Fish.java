@@ -63,7 +63,7 @@ public class Fish extends Agent{
 		} else if(fishBreedTime <0) {
 			fishBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("fishBreedTime"));
 		}
-		
+		this.environnement.notifyChanges();
 	}
 
 }

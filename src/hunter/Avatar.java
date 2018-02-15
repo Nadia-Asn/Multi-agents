@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
-import org.omg.CORBA.Environment;
 
 import core.Agent;
 import core.Dijsktra;
@@ -22,12 +19,14 @@ import core.SMA;
 public class Avatar extends Agent implements KeyListener {
     public static int [][] tabDij;
 
-    private int dirX = 0, dirY = 0, nbDefender =0;
+    private int dirX = 0;
+    private int dirY = 0;
+    private int nbDefender = 0;
     public static int speedAvatar;
 
     public Avatar(Position position, Pas pas, Environnement environnement){
         super(position, pas, environnement);
-        this.tabDij = new int [Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"))]
+        tabDij = new int [Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeX"))]
                               [Integer.parseInt(PropertiesReader.getInstance().getProperties("gridSizeY"))];
         resetTab();
         speedAvatar = Integer.parseInt(PropertiesReader.getInstance().getProperties("speedAvatar"));
@@ -36,62 +35,51 @@ public class Avatar extends Agent implements KeyListener {
 	public void decide(){
         if(environnement.getTicks() % speedAvatar== 0) {
             resetTab();
-            int posXtmp = this.getPosition().getPositionX() + dirX;
-            int posYtmp = this.getPosition().getPositionY() + dirY;
+            Position position = new Position(this.getPosition().getPositionX() + dirX, this.getPosition().getPositionY() + dirY);
+           
+            wallBounds(position);
+            if (deplacementPossible(position)) {
+                this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
 
-            wallBounds();
-            if (interditDeplacement()) {
-                Environment.getTab()[getPosX()][getPosY()] = null;
-
-                setPosX(getPosXTmp());
-                setPosY(getPosYTmp());
-                if(Environment.getTab()[getPosX()][getPosY()] instanceof Defender) {
-                    SMA.listAgent.remove(Environment.getTab()[getPosX()][getPosY()]);
+                this.setPosition(position);
+                if(this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] instanceof Defender) {
+                    SMA.agents.remove(this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()]);
                     nbDefender++;
                     if(nbDefender==4) {
-                        AgentColor color = null;
                         Agent agent = null;
                         Random r = new Random();
                         int x = -1, y = -1;
-                        while (!Environment.isAGoodPosition(x, y)) {
-                            x = r.nextInt(Environment.getTailleX());
-                            y = r.nextInt(Environment.getTailleY());
+                        while (!environnement.caseDispo(x, y)) {
+                            x = r.nextInt(this.environnement.getGridSizeX());
+                            y = r.nextInt(this.environnement.getGridSizeY());
                         }
-                        color = AgentColor.Vert;
-
-                        agent = new Winner(x, y, color, null);
-                        SMA.listAgent.add(agent);
-                        Environment.getTab()[agent.getPosX()][agent.getPosY()] = agent;
-                        SMA.listAgent.add(new Winner(x,y,color,null));
+                        agent = new Winner(new Position(x, y), null, this.environnement);
+                        SMA.agents.add(agent);
+                        this.environnement.getEnvironnement()[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = agent;
                     }
                 }
-                if(Environment.getTab()[getPosX()][getPosY()] instanceof Winner) {
-                    JOptionPane.showMessageDialog(null, "GAGNE");
-                    while (true) {
-                        try {
-                            Thread.sleep(Long.MAX_VALUE);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                if(this.environnement.getEnvironnement()[getPosition().getPositionX()][getPosition().getPositionY()] instanceof Winner) {
+                   System.out.println("Gagné");
                 }
-                Environment.getTab()[getPosX()][getPosY()] = this;
+                this.environnement.getEnvironnement()[getPosition().getPositionX()][getPosition().getPositionY()] = this;
             }
-            doDijkstra();
+            algoDijkstra();
             sendDijstraToHunter();
+            this.environnement.notifyChanges();
         }
-
-
     }
-    public boolean interditDeplacement() {
+	
+    public boolean deplacementPossible(Position position) {
+    	int posX = this.getPosition().getPositionX();
+    	int posY = this.getPosition().getPositionY();
         if(PropertiesReader.getInstance().getProperties("torique").equals("false")) {
-            if(getPosX() == 0 && dirX == -1) return false;
-            if(getPosX() == Environment.getTailleX()-1 && dirX == 1) return false;
-            if(getPosY() == 0 && dirY == -1) return false;
-            if(getPosY() == Environment.getTailleY()-1 && dirY == 1) return false;
-        } else if(Environment.getTab()[getPosXTmp()][getPosYTmp()] instanceof Hunter)
+            if(posX == 0 && dirX == -1) return false;
+            if(posX == this.environnement.getGridSizeX()-1 && dirX == 1) return false;
+            if(posY == 0 && dirY == -1) return false;
+            if(posY == this.environnement.getGridSizeY()-1 && dirY == 1) return false;
+        } else if(this.environnement.getEnvironnement()[position.getPositionX()][position.getPositionY()] instanceof Hunter)
         	return false;
-        return Environment.getTab()[getPosXTmp()][getPosYTmp()] == null || Environment.getTab()[getPosXTmp()][getPosYTmp()] instanceof Defender || Environment.getTab()[getPosXTmp()][getPosYTmp()] instanceof Winner;
+        return this.environnement.getEnvironnement()[position.getPositionX()][position.getPositionY()] == null || this.environnement.getEnvironnement()[position.getPositionX()][position.getPositionY()] instanceof Defender || this.environnement.getEnvironnement()[position.getPositionX()][position.getPositionY()] instanceof Winner;
     }
     /**
      * Move the avatar with arrows
@@ -100,20 +88,20 @@ public class Avatar extends Agent implements KeyListener {
     public void keyPressed(KeyEvent e){
         switch(e.getKeyCode()){
             case KeyEvent.VK_LEFT:
-                dirY = -1;
-                dirX = 0;
+                dirY = 0;
+                dirX = -1;
                 break;
             case KeyEvent.VK_RIGHT:
-                dirY = 1;
-                dirX = 0;
+                dirY = 0;
+                dirX = 1;
                 break;
             case KeyEvent.VK_UP:
-                dirX = -1;
-                dirY = 0;
+                dirX = 0;
+                dirY = -1;
                 break;
             case KeyEvent.VK_DOWN:
-                dirX = 1;
-                dirY = 0;
+                dirX = 0;
+                dirY = 1;
                 break;
             case KeyEvent.VK_O:
                 if(speedAvatar != 1) {
@@ -126,9 +114,6 @@ public class Avatar extends Agent implements KeyListener {
                     speedAvatar = 1;
                 }
                 break;
-            case KeyEvent.VK_P:
-                speedAvatar += 10;
-                break;
         }
     }
 
@@ -139,7 +124,7 @@ public class Avatar extends Agent implements KeyListener {
     public void keyTyped(KeyEvent e){
     }
 
-    public void doDijkstra(){
+    public void algoDijkstra(){
         Dijsktra element = new Dijsktra(this.getPosition().getPositionX(), this.getPosition().getPositionY());
         int distance = 1;
         tabDij[element.getX()][element.getY()] = 0;
@@ -180,14 +165,12 @@ public class Avatar extends Agent implements KeyListener {
                 }
                 
                 if(newX > -1 && newX <  environnement.getGridSizeX() && newY > -1 && newY < environnement.getGridSizeY()) {
-                	
 	                    if (tabDij[newX][newY] == -1) {
 	                        newElement.setX(newX);
 	                        newElement.setY(newY);
 	                        listNeighbour.add(newElement);
 	                    }
                 }
-                
             }
         }
 
@@ -206,18 +189,6 @@ public class Avatar extends Agent implements KeyListener {
     }
 
     public void sendDijstraToHunter(){
-        Environment.sendDijktra(tabDij);
+        environnement.sendDijktra(tabDij);
     }
-    
-    public void printDij(){
-    	System.out.println("-----------------");
-    	for (int i = 0; i < tabDij.length; i++) {
-			for (int j = 0; j < tabDij[i].length; j++) {
-				System.out.print(tabDij[i][j]);
-			}
-			System.out.println();
-		}
-    	System.out.println("-----------------");
-    }
-
 }

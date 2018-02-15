@@ -11,8 +11,10 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import hunter.Avatar;
+import hunter.Defender;
 import hunter.Hunter;
 import hunter.Wall;
+import hunter.Winner;
 import particules.Particule;
 import water.Fish;
 import water.Shark;
@@ -29,15 +31,14 @@ public class View extends JPanel implements Observer {
 
 	public View(Environnement env) {
 		super();
-		this.frameX = env.getGridSizeX() * env.getBoxSize() + env.getGridSizeX();
-		this.frameY = env.getGridSizeY() * env.getBoxSize() + env.getGridSizeY();
+		this.frameX = env.getGridSizeX()* env.getBoxSize() + 2;
+		this.frameY = env.getGridSizeY()* env.getBoxSize() + 2;
 		this.env = env;
 		this.env.addObserver(this);
+		this.setSize(new Dimension(frameX,frameY));
 		this.setBackground(Color.WHITE);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
-		this.setPreferredSize(new Dimension(frameX,frameY));
-
 	}
 	
 
@@ -136,6 +137,14 @@ public class View extends JPanel implements Observer {
 		}
 		if(agent.getClass().equals(Avatar.class)) {
 			g.setColor(Color.BLACK);
+			g.fillOval(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
+		}
+		if (agent.getClass().equals(Defender.class)) {
+			g.setColor(Color.BLUE);
+			g.fillOval(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
+		}
+		if(agent.getClass().equals(Winner.class)) {
+			g.setColor(Color.GREEN);
 			g.fillOval(posX, posY, env.getBoxSize()+1, env.getBoxSize()+1);
 		}
 	}

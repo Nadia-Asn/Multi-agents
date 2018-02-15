@@ -100,11 +100,7 @@ public class Shark extends Agent{
 	}
 	
 	public List<Fish> isFishAround(){
-		int x = 0, y = 0;
 		List<Fish> listfish = new ArrayList<Fish>();
-		int posX = this.getPosition().getPositionX();
-		int posY = this.getPosition().getPositionY();
-		
 		List<Agent> listAgent = environnement.getVoisins(this.getPosition());
 		
 		for(Agent agent : listAgent) {

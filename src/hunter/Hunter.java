@@ -1,8 +1,12 @@
 package hunter;
 
-import core.*;
-
-import javax.swing.*;
+import core.Agent;
+import core.Dijsktra;
+import core.Environnement;
+import core.Pas;
+import core.Position;
+import core.PropertiesReader;
+import core.SMA;
 
 
 public class Hunter extends Agent{
@@ -20,8 +24,8 @@ public class Hunter extends Agent{
             if (dij != null) {
                 int currentValue = dij[this.getPosition().getPositionX()][this.getPosition().getPositionY()];
                 for(Pas pas : Pas.getAllPas()) {
-                    Dijsktra element = new Dijsktra(pas.getPasX(), pas.getPasY());
-                    Position position = new Position(this.getPosition().getPositionX() + element.getX(), this.getPosition().getPositionY() + element.getY());
+                    Dijsktra dir = new Dijsktra(pas.getPasX(), pas.getPasY());
+                    Position position = new Position(this.getPosition().getPositionX() + dir.getX(), this.getPosition().getPositionY() + dir.getY());
                     wallBounds(position);
                     if(!(environnement.getEnvironnement()[position.getPositionX()][position.getPositionY()] instanceof Hunter)){
 	                    if (dij[position.getPositionX()][position.getPositionY()] < currentValue) {         	
@@ -30,15 +34,18 @@ public class Hunter extends Agent{
 	                    	this.setPosition(position);
 	
 	                		this.environnement.getEnvironnement()[this.position.getPositionX()][this.position.getPositionY()] = this;
+	                		this.environnement.notifyChanges();
 	                		
 	                		if(dij[this.getPosition().getPositionX()][this.getPosition().getPositionY()] == 0) {
                                 System.out.println("Perdu");
+                                SMA.gameStop = true;
                             }
 	                    }
                     }
                 }
             }
         }
+        this.environnement.notifyChanges();
     }
 
     public void setDij(int[][] dij) {

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import hunter.Avatar;
+import hunter.Defender;
 import hunter.Hunter;
 import hunter.Wall;
 import particules.Particule;
@@ -21,10 +22,12 @@ public class SMA {
 	private int gridsizeX, gridsizeY;
 	private String strategie;
 	private String game;
+	public static boolean gameStop;
 	
 	public SMA(Environnement environnement, String game) {
 		this.environnement = environnement;
 		this.game = game;
+		gameStop = false;
 		initTableau();
 	}
 
@@ -66,31 +69,44 @@ public class SMA {
 				agents.add(new Shark(position, new Pas(0, 0),this.environnement));
 			}
 		} else if ("hunter".equals(game)) {
+			Position position = this.getRandomPosition();
+			agents.add(new Avatar(position, new Pas(0, 0), environnement));
 			for(int i = 0; i < nbWalls; i++) {
-				Position position = this.getRandomPosition();
+				position = this.getRandomPosition();
 				agents.add(new Wall(position, null,this.environnement));
 			}
 			for(int i = 0; i < nbHunter; i++) {
-				Position position = this.getRandomPosition();
+				position = this.getRandomPosition();
 				agents.add(new Hunter(position, null,this.environnement));
 			}
-			Position position = this.getRandomPosition();
-			agents.add(new Avatar(position, new Pas(0, 0), environnement));
 		}
+		this.environnement.notifyChanges();
 		
 	}
 	
 	public void runAleatoire() {		
 		agents.get(random.nextInt(agents.size())).decide();
+		if("hunter".equals(this.game)) {
+			Random r = new Random();
+			int rand = r.nextInt(20);
+			if(rand == 1)  addDefender();
+		}
 	}
 	
 	public void runEquitable() {
-		for(int i = 0; i < ticks; i++) {
-			for(int agent = 0; agent< agents.size(); agent++) {
-				agents.get(agent).decide();
-			}
-			if("SEQUENTIEL".equals(strategie)) {
-				Collections.shuffle(agents);
+		if(!SMA.gameStop) {
+			for(int i = 0; i < ticks; i++) {
+				if("hunter".equals(this.game)) {
+					Random r = new Random();
+					int rand = r.nextInt(20);
+					if(rand == 1)  addDefender();
+				}
+				for(int agent = 0; agent< agents.size(); agent++) {
+					agents.get(agent).decide();
+				}
+				if("SEQUENTIEL".equals(strategie)) {
+					Collections.shuffle(agents);
+				}
 			}
 		}
 	}
@@ -106,7 +122,17 @@ public class SMA {
 			return new Position(posXRandom, posYRandom);
 	}
 	
-	
-
-
+	public void addDefender() {
+		Agent agent = null;
+		Random r = new Random();
+		int x = -1, y = -1;
+		do {
+			x = r.nextInt(this.environnement.getGridSizeX());
+			y = r.nextInt(this.environnement.getGridSizeY());
+		} while (this.environnement.caseDispo(x, y));
+			
+		agent = new Defender(new Position(x,y), new Pas(0, 0), this.environnement);
+		agents.add(agent);
+		this.environnement.getEnvironnement()[agent.getPosition().getPositionX()][agent.getPosition().getPositionY()] = agent;
+	}
 }
