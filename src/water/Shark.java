@@ -18,6 +18,7 @@ public class Shark extends Agent{
 	int sharkBreedTime, sharkStarveTime;
 	boolean isBaby;
 	int babyTime;
+	int algo;
 	
     public Shark(Position position, Pas pas, Environnement environnement){
         super(position, pas, environnement);
@@ -25,6 +26,7 @@ public class Shark extends Agent{
         babyTime = 2;
         this.sharkBreedTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkBreedTime"));
         this.sharkStarveTime = Integer.parseInt(PropertiesReader.getInstance().getProperties("sharkStarveTime"));
+        this.algo = Integer.parseInt(PropertiesReader.getInstance().getProperties("algo"));
     }
     
 	public boolean isBaby() {
@@ -53,6 +55,21 @@ public class Shark extends Agent{
 		if(babyTime == 0) {
 			isBaby = false;
 		}
+		if(algo == 1) {
+			nourirReproduireMourir();
+		} else if(algo == 2) {
+			mourirReproduireNourir();
+		}else if(algo == 3) {
+			nourirMourirReproduire();
+		} else if(algo == 4) {
+			reproduireMourirNourir();
+		}
+		
+		environnement.notifyChanges();
+
+	}
+
+	private void nourirReproduireMourir() {
 		if(sharkStarveTime > 0) {
 			int oldX, oldY;
 			oldX = this.getPosition().getPositionX();
@@ -67,9 +84,56 @@ public class Shark extends Agent{
 		} else {
 			mourir();
 		}
-		this.pas.genererPasAleatoire(this);
-		environnement.notifyChanges();
-
+	}
+	
+	private void mourirReproduireNourir() {
+		if(sharkStarveTime == 0) {
+			mourir();
+		} else {
+			int oldX, oldY;
+			oldX = this.getPosition().getPositionX();
+			oldY = this.getPosition().getPositionY();
+			reproduction(oldX, oldY);
+			List<Fish> listfish = isFishAround();
+			if (!listfish.isEmpty()) {
+				seNourir(listfish);
+			} else {
+				deplacement();
+			}
+		}
+	}
+	
+	private void nourirMourirReproduire() {
+		int oldX, oldY;
+		oldX = this.getPosition().getPositionX();
+		oldY = this.getPosition().getPositionY();
+		reproduction(oldX, oldY);
+		List<Fish> listfish = isFishAround();
+		if (!listfish.isEmpty()) {
+			seNourir(listfish);
+		} else {
+			deplacement();
+		}
+		if(sharkStarveTime == 0) {
+			mourir();
+		} else {
+			reproduction(oldX, oldY);
+		}
+	}
+	private void reproduireMourirNourir() {
+		int oldX, oldY;
+		oldX = this.getPosition().getPositionX();
+		oldY = this.getPosition().getPositionY();
+		reproduction(oldX, oldY);
+		if(sharkStarveTime == 0) {
+			mourir();
+		} 
+		List<Fish> listfish = isFishAround();
+		if (!listfish.isEmpty()) {
+			seNourir(listfish);
+		} else {
+			deplacement();
+		}
 	}
 
 	private void mourir() {
