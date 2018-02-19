@@ -24,6 +24,7 @@ public class SMA {
 	private String strategie;
 	private String game;
 	public static boolean gameStop;
+	public static Agent avatar;
 	
 	public SMA(Environnement environnement, String game) {
 		this.environnement = environnement;
@@ -71,16 +72,16 @@ public class SMA {
 			}
 		} else if ("hunter".equals(game)) {
 			Labyrinthe lab = new Labyrinthe(environnement, gridsizeX, gridsizeY);
-//			Position position = this.getRandomPosition();
-//			agents.add(new Avatar(position, new Pas(0, 0), environnement));
-//			for(int i = 0; i < nbWalls; i++) {
-//				position = this.getRandomPosition();
-//				agents.add(new Wall(position, null,this.environnement));
-//			}
-//			for(int i = 0; i < nbHunter; i++) {
-//				position = this.getRandomPosition();
-//				agents.add(new Hunter(position, null,this.environnement));
-//			}
+			lab.initLabyrinthe(environnement, gridsizeX, gridsizeY);
+			lab.generationLabyrinthe();
+			Position position = this.getRandomPosition();
+			Avatar av = new Avatar(position, new Pas(0, 0), environnement);
+			agents.add(av);
+			avatar = av;
+			for(int i = 0; i < nbHunter; i++) {
+				position = this.getRandomPosition();
+				agents.add(new Hunter(position, null,this.environnement));
+			}
 		}
 		this.environnement.notifyChanges();
 		

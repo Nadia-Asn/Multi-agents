@@ -27,23 +27,21 @@ public class Labyrinthe {
 		this.sizeX = gridSizeX/2;
 		this.sizeY = gridSizeY/2;
 		this.nbMurOuvert = 0;
-		initLabyrinthe(env, gridSizeX, gridSizeY);
-		generationLabyrinthe();
 	}
 	
-	private void initLabyrinthe(Environnement env,int gridSizeX, int gridSizeY) {
+	public void initLabyrinthe(Environnement env,int gridSizeX, int gridSizeY) {
 		for(int i = 0; i < gridSizeX; i++) {
 			for(int j = 0; j < gridSizeY; j++) {
-				if(((i % 2 == 0) && (j % 2 == 0))||((i % 2 != 0) && (j % 2 != 0))) {
+				if(i % 2 == 0 || j % 2 == 0) {
 					SMA.agents.add(new Wall(new Position(i,j), new Pas(0,0), env));
 				} else {
-					cases.add(new Position(i, j));
+					cases.add(new Position(j, i));
 				}
 			}
 		}
 	}
 	
-	private void generationLabyrinthe() {
+	public void generationLabyrinthe() {
 		affectactionValeurCase();
 		while(nbMurOuvert < sizeX*sizeY-1) {
 			for(int i = 0; i < listCases.size(); i++) {
@@ -68,9 +66,9 @@ public class Labyrinthe {
 		int valeur = 0;
 		labyrinthe = new CaseLabyrinthe[sizeX][sizeY];
 		for(int i = 0; i < sizeX; i ++) {
-			for(int j = 0; j < sizeY/2; j++) {
-				CaseLabyrinthe cas = new CaseLabyrinthe(this.environnement, cases.get(valeur), new Position(i, j),valeur);
-				labyrinthe[i][j] = cas;
+			for(int j = 0; j < sizeY; j++) {
+				CaseLabyrinthe cas = new CaseLabyrinthe(this.environnement, cases.get(valeur), new Position(j, i),valeur);
+				labyrinthe[j][i] = cas;
 				listCases.add(cas);
 				valeur ++;
 			}
@@ -89,18 +87,22 @@ public class Labyrinthe {
 	}
 	
 	public CaseLabyrinthe retournerVoisinSelonMur(CaseLabyrinthe cas, Position mur) {
+		// Voisin Ouest
 		if(cas.positionEnv.getPositionX() > mur.getPositionX()) {
 			if(mur.getPositionX() > 0) {
 				return labyrinthe[cas.positionLab.getPositionX()-1][cas.positionLab.getPositionY()];
 			}
+		// Voisin Est
 		}if(cas.positionEnv.getPositionX() < mur.getPositionX()) {
 			if(mur.getPositionX() < environnement.getGridSizeX()-1) {
 				return labyrinthe[cas.positionLab.getPositionX()+1][cas.positionLab.getPositionY()];
 			}
+		// Voisin Sud
 		}if(cas.positionEnv.getPositionY() < mur.getPositionY()) {
 			if(mur.getPositionY() < environnement.getGridSizeY()-1) {
 				return labyrinthe[cas.positionLab.getPositionX()][cas.positionLab.getPositionY()+1];
 			}
+		// Voisin nord
 		}if(cas.positionEnv.getPositionY() > mur.getPositionY()) {
 			if(mur.getPositionY() > 0) {
 				return labyrinthe[cas.positionLab.getPositionX()][cas.positionLab.getPositionY()-1];

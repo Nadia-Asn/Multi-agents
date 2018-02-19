@@ -75,9 +75,9 @@ class CaseLabyrinthe {
 				position = getMurNord();
 			}else if(mur == 1) {
 				position = getMurSud();
-			}else if (mur == 3) {
+			}else if (mur == 2) {
 				position = getMurOuest();
-			}else if (mur == 4) {
+			}else if (mur == 3) {
 				position = getMurEst();
 			}
 		}while(position == null);
