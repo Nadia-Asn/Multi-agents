@@ -9,7 +9,6 @@ import hunter.Avatar;
 import hunter.Defender;
 import hunter.Hunter;
 import hunter.Labyrinthe;
-import hunter.Wall;
 import particules.Particule;
 import water.Fish;
 import water.Shark;
@@ -24,7 +23,7 @@ public class SMA {
 	private String strategie;
 	private String game;
 	public static boolean gameStop;
-	public static Agent avatar;
+	public static Avatar avatar;
 	
 	public SMA(Environnement environnement, String game) {
 		this.environnement = environnement;
@@ -50,7 +49,6 @@ public class SMA {
 		int nbShark = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbShark")));
 		ticks = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbTicks")));
 		strategie = PropertiesReader.getInstance().getProperties("scheduling");
-		int nbWalls = (int)((gridsizeX*gridsizeY)*Integer.parseInt(PropertiesReader.getInstance().getProperties("wallsPercent"))/100f);
 		int nbHunter = (Integer.parseInt(PropertiesReader.getInstance().getProperties("nbHunter")));
 		
 		if("particules".equals(this.game)) {

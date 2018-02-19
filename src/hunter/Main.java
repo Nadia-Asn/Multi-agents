@@ -25,7 +25,7 @@ public class Main {
 		vue.setVisible(true);
 		JFrame frame = env.createWindow("");
 		frame.add(vue);
-		frame.addKeyListener((Avatar)SMA.avatar);
+		frame.addKeyListener(SMA.avatar);
 		while (true) {
 			if("ALEATOIRE".equals(strategie)) {
 				for (int j = 0; j < env.getNbParticle(); j++) {
