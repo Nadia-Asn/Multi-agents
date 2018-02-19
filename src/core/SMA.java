@@ -8,6 +8,7 @@ import java.util.Random;
 import hunter.Avatar;
 import hunter.Defender;
 import hunter.Hunter;
+import hunter.Labyrinthe;
 import hunter.Wall;
 import particules.Particule;
 import water.Fish;
@@ -69,16 +70,17 @@ public class SMA {
 				agents.add(new Shark(position, new Pas(0, 0),this.environnement));
 			}
 		} else if ("hunter".equals(game)) {
-			Position position = this.getRandomPosition();
-			agents.add(new Avatar(position, new Pas(0, 0), environnement));
-			for(int i = 0; i < nbWalls; i++) {
-				position = this.getRandomPosition();
-				agents.add(new Wall(position, null,this.environnement));
-			}
-			for(int i = 0; i < nbHunter; i++) {
-				position = this.getRandomPosition();
-				agents.add(new Hunter(position, null,this.environnement));
-			}
+			Labyrinthe lab = new Labyrinthe(environnement, gridsizeX, gridsizeY);
+//			Position position = this.getRandomPosition();
+//			agents.add(new Avatar(position, new Pas(0, 0), environnement));
+//			for(int i = 0; i < nbWalls; i++) {
+//				position = this.getRandomPosition();
+//				agents.add(new Wall(position, null,this.environnement));
+//			}
+//			for(int i = 0; i < nbHunter; i++) {
+//				position = this.getRandomPosition();
+//				agents.add(new Hunter(position, null,this.environnement));
+//			}
 		}
 		this.environnement.notifyChanges();
 		

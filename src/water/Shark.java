@@ -56,20 +56,20 @@ public class Shark extends Agent{
 			isBaby = false;
 		}
 		if(algo == 1) {
-			nourirReproduireMourir();
+			nourrirReproduireMourir();
 		} else if(algo == 2) {
-			mourirReproduireNourir();
+			mourirReproduireNourrir();
 		}else if(algo == 3) {
-			nourirMourirReproduire();
+			nourrirMourirReproduire();
 		} else if(algo == 4) {
-			reproduireMourirNourir();
+			reproduireMourirNourrir();
 		}
 		
 		environnement.notifyChanges();
 
 	}
 
-	private void nourirReproduireMourir() {
+	private void nourrirReproduireMourir() {
 		if(sharkStarveTime > 0) {
 			int oldX, oldY;
 			oldX = this.getPosition().getPositionX();
@@ -86,28 +86,26 @@ public class Shark extends Agent{
 		}
 	}
 	
-	private void mourirReproduireNourir() {
+	private void mourirReproduireNourrir() {
 		if(sharkStarveTime == 0) {
 			mourir();
 		} else {
 			int oldX, oldY;
 			oldX = this.getPosition().getPositionX();
 			oldY = this.getPosition().getPositionY();
+			deplacement();
 			reproduction(oldX, oldY);
 			List<Fish> listfish = isFishAround();
 			if (!listfish.isEmpty()) {
 				seNourir(listfish);
-			} else {
-				deplacement();
 			}
 		}
 	}
 	
-	private void nourirMourirReproduire() {
+	private void nourrirMourirReproduire() {
 		int oldX, oldY;
 		oldX = this.getPosition().getPositionX();
 		oldY = this.getPosition().getPositionY();
-		reproduction(oldX, oldY);
 		List<Fish> listfish = isFishAround();
 		if (!listfish.isEmpty()) {
 			seNourir(listfish);
@@ -120,10 +118,11 @@ public class Shark extends Agent{
 			reproduction(oldX, oldY);
 		}
 	}
-	private void reproduireMourirNourir() {
+	private void reproduireMourirNourrir() {
 		int oldX, oldY;
 		oldX = this.getPosition().getPositionX();
 		oldY = this.getPosition().getPositionY();
+		deplacement();
 		reproduction(oldX, oldY);
 		if(sharkStarveTime == 0) {
 			mourir();
@@ -131,12 +130,10 @@ public class Shark extends Agent{
 		List<Fish> listfish = isFishAround();
 		if (!listfish.isEmpty()) {
 			seNourir(listfish);
-		} else {
-			deplacement();
 		}
 	}
 
-	private void mourir() {
+	private void mourir() { 
 		SMA.agents.remove(this);
 		this.environnement.getEnvironnement()[this.getPosition().getPositionX()][this.getPosition().getPositionY()] = null;
 	}
